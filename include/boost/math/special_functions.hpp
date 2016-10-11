@@ -39,6 +39,7 @@
 #include <boost/math/special_functions/expint.hpp>
 #include <boost/math/special_functions/expm1.hpp>
 #include <boost/math/special_functions/factorials.hpp>
+#include <boost/math/special_functions/fermi_dirak.hpp>
 #include <boost/math/special_functions/fpclassify.hpp>
 #include <boost/math/special_functions/gamma.hpp>
 #include <boost/math/special_functions/hermite.hpp>

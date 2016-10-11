@@ -18,55 +18,9 @@
 namespace boost {
 namespace math {
 
-// хочется сделать одну функцию, которая будет подтягивать коэффиуциенты в зависимости от индекса
-template <typename T>
-static T get_negative_value(const T x, const T k,
-                            const T& a, const T& b)
-{
-    const size_t N_base = 4;
-    T S1 = 0, S2 = 0;
-    T y = log(1 + exp(x));
 
-    for (size_t n = 0; n < N_base + 1; n++) {
-        S1 = S1 + a[n] * pow(y, n + 1);
-    }
 
-    for (size_t m = 0; m < N_base; m++) {
-        S2 = S2 + b[m] * pow(y, m + 1);
-    }
 
-    T I_negative = (1 + S1) / (1 + S2);
-
-    // возвращаем значение аппроксимации согласно формуле (14) в статье
-    return boost::math::tgamma(k + 1) * y * pow(I_negative, k);
-}
-
-template <typename T>
-T fermi_dirak_k1(const T x)
-{
-    const int k = 1;
-    static const T a[] = { 
-		static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.2715113138214362780964488)),
-        static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.0562661238060587633169245)),
-        static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.0067420740469345689743873)),
-        static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.0005169505155333205859985)),
-        static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.0000194771836765773190602)) 
-	};
-
-    static const T b[] = { 
-		static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.0215113138214352840651584)),
-        static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.0231105175729721417901084)),
-        static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.0003669081577365413477999)),
-        static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.0000610424408732720110769)) 
-	};
-
-    if (x < 0) {
-        return get_negative_value(x, k, a, b);
-    }
-    else {
-        return x * x / 2 + 2 * I_1_0 - get_negative_value(-x, k, a, b);
-    }
-}
 
 template <typename T>
 T fermi_dirak_k2(const T x)
